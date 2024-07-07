@@ -12,6 +12,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+/*
+ * This example calculates the MD5 digest of the files contained in the tar file.
+ * The main function reads the file in blocks of variable (random) size to simulate an "irregular" stream. Each block is
+ * pushed into the extraction engine.
+ */
 #include "tarStreamExtractor.h"
 
 #include "digest2string.h"
@@ -27,6 +33,7 @@ typedef struct userTarStruct
     size_t      fsz;
 } userTarStruct_t;
 
+/* callbacks */
 static int fileInit(userTarStruct_t *, const char *path);
 static int dirCreate(userTarStruct_t *, const char *path);
 static int recvData(userTarStruct_t *, const uint8_t *data, size_t dataSz);
@@ -55,18 +62,20 @@ int main(int argc, char *argv[])
         return EXIT_FAILURE;
     }
 
+    /* init tar extractor */
     tarStrEx_init(&static_mtar, &mtar, &usrPar, (cb_fileInit_t)fileInit, (cb_dirCreate_t)dirCreate,
                   (cb_recvData_t)recvData, (cb_fileFinalize_t)fileFinalize);
 
-    srand(seed); // Inizializza il generatore di numeri casuali con il seed
-                 // specificato
+    srand(seed); /* Initializes the random number generator with the specified seed */
 
     unsigned char buffer[160];
     size_t        bytes_read;
 
     while (!feof(file))
     {
-        size_t block_size = 90 + rand() % (160 - 90 + 1); // Dimensione casuale tra 90 e 160
+        /* To simulate that the tar file is received on a stream of a communication channel, we read the file in blocks
+         * of random size */
+        size_t block_size = 90 + rand() % (160 - 90 + 1); /* Random size between 90 and 160 */
         bytes_read        = fread(buffer, 1, block_size, file);
 
         if (bytes_read > 0)

@@ -7,7 +7,21 @@ I chose the TAR format. I tried to make the sw component as system-independent a
 
 ## Usage
 
-The user will have to implement the call backs to be provided to the extraction engine. You can take a look at the examples
+Most tar processors found on the net *pull* the bytes from the tar file by themselves.
+This is not good for our requirement to extract the contents of a tar transmitted in a stream, then incrementally.<br>
+This is why in my implementation the data must be *pushed* into the extraction engine. There is no constraint on how many bytes at a time should be pushed.
+
+The user will have to implement the call backs to be provided to the extraction engine through the init function. You can take a look at the examples
+
+## Further readings and related projects
+
+Much of the specification of the tar format was found in the following places:
+
+- [Tape Archive (tar) File Format Family](https://www.loc.gov/preservation/digital/formats/fdd/fdd000531.shtml)
+- [Basic Tar Format](https://www.gnu.org/software/tar/manual/html_node/Standard.html)
+- [Wikipedia](https://en.wikipedia.org/wiki/Tar_(computing)#File_format)
+
+Another resource has been the [microtar](https://github.com/rxi/microtar) project
 
 ## License
 
