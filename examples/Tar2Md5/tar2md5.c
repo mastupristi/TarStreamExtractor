@@ -1,9 +1,25 @@
+/*
+ * Copyright 2024 Massimiliano Cialdi
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 #include "tarStreamExtractor.h"
 
 #include "digest2string.h"
 #include <openssl/evp.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <fcntl.h>
+#include <unistd.h>
 
 typedef struct userTarStruct
 {
@@ -25,7 +41,7 @@ int main(int argc, char *argv[])
     tarStrEx_t *mtar;
     if (argc < 2)
     {
-        fprintf(stderr, "Uso: %s <nome_file> [seed_random]\n", argv[0]);
+        fprintf(stderr, "Use: %s <nome_file> [seed_random]\n", argv[0]);
         return EXIT_FAILURE;
     }
 
@@ -35,7 +51,7 @@ int main(int argc, char *argv[])
     FILE *file = fopen(file_name, "rb");
     if (file == NULL)
     {
-        perror("Errore nell'apertura del file");
+        perror("Error opening file");
         return EXIT_FAILURE;
     }
 
@@ -63,17 +79,12 @@ int main(int argc, char *argv[])
     return EXIT_SUCCESS;
 }
 
-// static int f;
-#include <fcntl.h>
-#include <unistd.h>
-
 static int fileInit(userTarStruct_t *userParam, const char *path)
 {
     printf("%s ", path);
     userParam->mdctx = EVP_MD_CTX_new();
     EVP_DigestInit_ex(userParam->mdctx, EVP_md5(), NULL);
     userParam->fsz = 0;
-    // f = open(path, O_CREAT | O_TRUNC | O_WRONLY, 0664);
     return 0;
 }
 
@@ -86,14 +97,12 @@ static int dirCreate(userTarStruct_t *userParam, const char *path)
 static int recvData(userTarStruct_t *userParam, const uint8_t *data, size_t dataSz)
 {
     EVP_DigestUpdate(userParam->mdctx, data, dataSz);
-    // write(f, data, dataSz);
     userParam->fsz += dataSz;
     return 0;
 }
 
 static int fileFinalize(userTarStruct_t *userParam)
 {
-    // close(f);
     uint32_t md5_digest_len = EVP_MD_size(EVP_md5());
     char     digestStr[md5_digest_len * 2 + 1];
     uint8_t *md5_digest;
