@@ -255,7 +255,18 @@ int tarStrEx_process_data(tarStrEx_t *tar, const uint8_t *data, uint16_t dataSz)
             {
                 /* convert the header */
                 res = raw_to_header(&tar->hdr, (const tar_header_t *)tar->blockBuff);
-                if (TARSTEX_ESUCCESS != res)
+                if (TARSTEX_ENULLRECORD == res)
+                {
+                    /* At the end of the tar archive there are two 512-byte blocks filled with binary zeros as an
+                     * end-of-file marker.
+                     * We simply ignore those zeros-populated header and go ahead
+                     */
+                    /* update indexes, etc. No need to change status */
+                    tar->remaining_buffBytes = TAR_BLOCK_SIZE;
+                    tar->buffIdx             = 0;
+                    break;
+                }
+                else if (TARSTEX_ESUCCESS != res)
                 {
                     tar->status = tar_error;
                     return res;
