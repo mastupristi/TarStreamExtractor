@@ -35,16 +35,16 @@ enum
 
 /* sed struct dimension depending on platform */
 #if UINTPTR_MAX == 0xFFFFFFFF
-#define STATICBUFF_SZ 652 /* for 32-bit platforms */
+#define STATIC_SETAR_BUFF_SZ 652 /* for 32-bit platforms */
 #elif UINTPTR_MAX == 0xFFFFFFFFFFFFFFFF
-#define STATICBUFF_SZ 680 /* for 64-bit platforms */
+#define STATIC_SETAR_BUFF_SZ 680 /* for 64-bit platforms */
 #else
 #error "Unknown platform"
 #endif
 
-typedef struct static_mtar
+typedef struct static_seTar
 {
-    uint8_t dummy[STATICBUFF_SZ];
+    uint8_t dummy[STATIC_SETAR_BUFF_SZ];
 } static_tarStrEx_t;
 
 typedef struct tarStrEx_t tarStrEx_t;
@@ -96,7 +96,7 @@ typedef int (*cb_fileFinalize_t)(void *param);
 /**
  * @brief initialization function
  *
- * @param static_mtar pointer to struct buffer used to store actual mtar handle
+ * @param static_seTar pointer to struct buffer used to store actual seTar handle
  * structure
  * @param[out] tar pointer to handle pointer do be populated
  * @param cbParam parameter passed to the callbacks
@@ -106,7 +106,7 @@ typedef int (*cb_fileFinalize_t)(void *param);
  * @param fileFinalize callback
  * @return 0 on success, or a negative value representing fault
  */
-int tarStrEx_init(static_tarStrEx_t *static_mtar, tarStrEx_t **tar, void *cbParam, cb_fileInit_t fileInit,
+int tarStrEx_init(static_tarStrEx_t *static_seTar, tarStrEx_t **tar, void *cbParam, cb_fileInit_t fileInit,
                   cb_dirCreate_t dirCreate, cb_recvData_t recvData, cb_fileFinalize_t fileFinalize);
 
 /**

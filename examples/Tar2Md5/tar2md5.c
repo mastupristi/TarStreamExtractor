@@ -41,11 +41,11 @@ static int fileFinalize(userTarStruct_t *);
 
 static userTarStruct_t usrPar;
 
-static static_tarStrEx_t static_mtar;
+static static_tarStrEx_t static_seTar;
 
 int main(int argc, char *argv[])
 {
-    tarStrEx_t *mtar;
+    tarStrEx_t *seTar;
     if (argc < 2)
     {
         fprintf(stderr, "Use: %s <nome_file> [seed_random]\n", argv[0]);
@@ -63,7 +63,7 @@ int main(int argc, char *argv[])
     }
 
     /* init tar extractor */
-    tarStrEx_init(&static_mtar, &mtar, &usrPar, (cb_fileInit_t)fileInit, (cb_dirCreate_t)dirCreate,
+    tarStrEx_init(&static_seTar, &seTar, &usrPar, (cb_fileInit_t)fileInit, (cb_dirCreate_t)dirCreate,
                   (cb_recvData_t)recvData, (cb_fileFinalize_t)fileFinalize);
 
     srand(seed); /* Initializes the random number generator with the specified seed */
@@ -80,7 +80,7 @@ int main(int argc, char *argv[])
 
         if (bytes_read > 0)
         {
-            tarStrEx_process_data(mtar, buffer, bytes_read);
+            tarStrEx_process_data(seTar, buffer, bytes_read);
         }
     }
 

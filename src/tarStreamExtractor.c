@@ -180,10 +180,10 @@ static int raw_to_header(tarStrEx_header_t *h, const tar_header_t *rh)
     return TARSTEX_ESUCCESS;
 }
 
-int tarStrEx_init(static_tarStrEx_t *static_mtar, tarStrEx_t **tar, void *cbParam, cb_fileInit_t fileInit,
+int tarStrEx_init(static_tarStrEx_t *static_seTar, tarStrEx_t **tar, void *cbParam, cb_fileInit_t fileInit,
                   cb_dirCreate_t dirCreate, cb_recvData_t recvData, cb_fileFinalize_t fileFinalize)
 {
-    *tar                 = (tarStrEx_t *)static_mtar;
+    *tar                 = (tarStrEx_t *)static_seTar;
     (*tar)->fileInit     = fileInit;
     (*tar)->dirCreate    = dirCreate;
     (*tar)->recvData     = recvData;
