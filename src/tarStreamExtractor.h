@@ -42,7 +42,9 @@ enum
 #error "Unknown platform"
 #endif
 
-typedef struct static_seTar
+#define ALIGNMENT (__SIZEOF_POINTER__)
+
+typedef struct __attribute__((aligned(ALIGNMENT))) static_seTar
 {
     uint8_t dummy[STATIC_SETAR_BUFF_SZ];
 } static_tarStrEx_t;
