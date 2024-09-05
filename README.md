@@ -13,6 +13,10 @@ This is why in my implementation the data must be *pushed* into the extraction e
 
 The user will have to implement the call backs to be provided to the extraction engine through the init function. You can take a look at the examples
 
+## Supported Features and Limitations
+
+Although the *TAR Stream Extractor* core should support all types of tar, the example provided supports only tar containing files and not directories. In other words, the example requires tar not containing directory structures. The files that the tar contains must therefore be pathless.
+
 ## Further readings and related projects
 
 Much of the specification of the tar format was found in the following places:
