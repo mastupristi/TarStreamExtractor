@@ -1,4 +1,4 @@
-SUBDIRS := Tar2Md5
+SUBDIRS := Tar2Md5 unTar
 
 all: $(SUBDIRS)
 
