@@ -99,7 +99,7 @@ static int fileInit(userTarStruct_t *userParam, const char *path)
 
 static int dirCreate(userTarStruct_t *userParam, const char *path)
 {
-    printf("create dir %s\n", path);
+    printf("skipping dir %s\n", path);
     return 0;
 }
 
