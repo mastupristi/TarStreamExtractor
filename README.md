@@ -15,7 +15,7 @@ The user will have to implement the call backs to be provided to the extraction 
 
 ## Supported Features and Limitations
 
-Although the *TAR Stream Extractor* core should support all types of tar, the example provided supports only tar containing files and not directories. In other words, the example requires tar not containing directory structures. The files that the tar contains must therefore be pathless.
+Although the *TAR Stream Extractor* core should support all types of tar, the example provided supports only tar containing regular files and directories.
 
 ## Further readings and related projects
 
