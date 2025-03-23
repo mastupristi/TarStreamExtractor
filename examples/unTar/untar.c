@@ -1,3 +1,42 @@
+/*
+ * Copyright 2024 Massimiliano Cialdi
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/*
+ * This example demonstrates how to use the tarStreamExtractor library to extract files and directories
+ * from a tar archive stream and write them to the file system.
+ *
+ * The main function simulates the reception of a tar archive over a stream by reading chunks of
+ * random size from a tar file and feeding them incrementally to the extraction engine.
+ *
+ * The example implements the following callbacks:
+ *
+ *  - dirCreate: creates directories, including any necessary parent directories (equivalent to "mkdir -p").
+ *  - fileInit: ensures that the parent directory exists, then opens a file for writing.
+ *  - recvData: writes data blocks to the currently opened file.
+ *  - fileFinalize: closes the file after all its data has been written.
+ *
+ * The extracted files and directories are created relative to the current working directory,
+ * respecting the paths found in the tar archive.
+ *
+ * This example does not handle file permissions, symbolic links, or special device files.
+ * It focuses on extracting regular files and directories from a tar archive in a streaming fashion.
+ *
+ * Author: Massimiliano Cialdi
+ * License: Apache License 2.0
+ */
+
 #include "tarStreamExtractor.h"
 
 #include <stdio.h>
